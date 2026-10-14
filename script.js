@@ -20,7 +20,7 @@ const CONFIG = {
   formEndpoint: '',
 
   // ---- Files you paste into the folders ----
-  resume: 'assets/resume.pdf',
+  resume: './resume.pdf',
 
   // ---- Social links ----
   socials: [
