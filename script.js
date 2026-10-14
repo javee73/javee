@@ -95,14 +95,15 @@ const CONFIG = {
 
   // ---- 6 certificates ----
   // Paste your files into the "certificates" folder using EXACTLY these file names.
-  // PDF or image both work. If your file is an image, change the ending, e.g. certificate-1.jpg
+  // Images (png, jpg, jpeg, webp) show directly in the card. PDFs also show a preview.
+  // If your file is a .jpg, change the ending here, e.g. certificates/certificate-2.jpg
   certificates: [
-    { title: 'Certificate 1 title', issuer: 'Issued by', year: '2025', file: 'certificates/certificate-1.pdf' },
-    { title: 'Certificate 2 title', issuer: 'Issued by', year: '2025', file: 'certificates/certificate-2.pdf' },
-    { title: 'Certificate 3 title', issuer: 'Issued by', year: '2025', file: 'certificates/certificate-3.pdf' },
-    { title: 'Certificate 4 title', issuer: 'Issued by', year: '2024', file: 'certificates/certificate-4.pdf' },
-    { title: 'Certificate 5 title', issuer: 'Issued by', year: '2024', file: 'certificates/certificate-5.pdf' },
-    { title: 'Certificate 6 title', issuer: 'Issued by', year: '2024', file: 'certificates/certificate-6.pdf' }
+    { title: 'Certificate 1 title', issuer: 'Issued by', year: '2025', file: 'certificate1.png' },
+    { title: 'Certificate 2 title', issuer: 'Issued by', year: '2025', file: 'certificate2.jpg' },
+    { title: 'Certificate 3 title', issuer: 'Issued by', year: '2025', file: 'certificate-3.pdf' },
+    { title: 'Certificate 4 title', issuer: 'Issued by', year: '2024', file: 'certificate-4.pdf' },
+    { title: 'Certificate 5 title', issuer: 'Issued by', year: '2024', file: 'certificate-5.pdf' },
+    { title: 'Certificate 6 title', issuer: 'Issued by', year: '2024', file: 'certificate-6.pdf' }
   ]
 };
 
@@ -111,6 +112,33 @@ const CONFIG = {
    ========================================================= */
 
 const $ = (selector, root = document) => root.querySelector(selector);
+
+/* ---------- Navigation ---------- */
+const nav = $('.nav');
+const navToggle = $('.nav-toggle');
+const navLinks = $('.nav-links');
+
+function setNavOpen(isOpen) {
+  nav.classList.toggle('is-open', isOpen);
+  navToggle.setAttribute('aria-expanded', String(isOpen));
+  navToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+}
+
+navToggle.addEventListener('click', () => {
+  setNavOpen(navToggle.getAttribute('aria-expanded') !== 'true');
+});
+navLinks.addEventListener('click', (event) => {
+  if (event.target.closest('a')) setNavOpen(false);
+});
+document.addEventListener('click', (event) => {
+  if (!nav.contains(event.target)) setNavOpen(false);
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && navToggle.getAttribute('aria-expanded') === 'true') {
+    setNavOpen(false);
+    navToggle.focus();
+  }
+});
 
 /** Small helper to create elements safely (text is never parsed as HTML). */
 function h(tag, props = {}, ...children) {
@@ -197,10 +225,11 @@ $('#education-list').append(
   )
 );
 
-/* ---------- Certificates ---------- */
+/* ---------- Certificates: the certificate itself is shown in the card ---------- */
 $('#certificate-list').append(
   ...CONFIG.certificates.map((c) => {
-    const thumb = h('a', {
+    // Clicking the preview opens the full certificate in a new tab
+    const preview = h('a', {
       class: 'cert-thumb',
       href: c.file,
       target: '_blank',
@@ -208,28 +237,29 @@ $('#certificate-list').append(
       'aria-label': `Open certificate: ${c.title}`
     });
 
-    const placeholder = () => [
-      h('span', { class: 'cert-badge', text: IMAGE_FILE.test(c.file) ? 'IMG' : 'PDF' }),
-      h('span', { class: 'cert-file', text: c.file })
-    ];
-
     if (IMAGE_FILE.test(c.file)) {
       const img = h('img', { src: c.file, alt: `${c.title} certificate`, loading: 'lazy' });
-      img.addEventListener('error', () => thumb.replaceChildren(...placeholder()));
-      thumb.append(img);
+      img.addEventListener('error', () => {
+        img.remove();
+        preview.append(h('span', { class: 'cert-missing', text: `File not found: ${c.file}` }));
+      });
+      preview.append(img);
     } else {
-      thumb.append(...placeholder());
+      // PDF: preview the first page inside the card
+      preview.append(
+        h('iframe', {
+          src: `${c.file}#toolbar=0&navpanes=0&view=FitH`,
+          title: `${c.title} certificate`,
+          loading: 'lazy'
+        })
+      );
     }
 
     return h('article', { class: 'card cert' },
-      thumb,
+      preview,
       h('div', { class: 'cert-body' },
         h('h3', { text: c.title }),
         h('p', { text: [c.issuer, c.year].filter(Boolean).join(' · ') })
-      ),
-      h('div', { class: 'cert-actions' },
-        externalLink('View ↗', c.file, 'view'),
-        h('a', { href: c.file, download: true, text: 'Download' })
       )
     );
   })
