@@ -20,7 +20,12 @@
 <header class="nav">
   <div class="container nav-inner">
     <a class="brand" href="#top"><span class="accent" >Jav</span>ee</a>
-    <nav class="nav-links" aria-label="Main">
+    <button class="nav-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-links">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="nav-links" id="nav-links" aria-label="Main">
       <a href="#about">about</a>
       <a href="#stack">stack</a>
       <a href="#work">work</a>
@@ -140,7 +145,6 @@
     <div class="section-head">
       <p class="eyebrow">Certificates</p>
       <h2>Courses and certifications</h2>
-      <p class="muted">Click a certificate to open it in a new tab.</p>
     </div>
     <div class="grid" id="certificate-list"></div>
   </div>
