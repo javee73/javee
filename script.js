@@ -100,10 +100,17 @@ const CONFIG = {
   certificates: [
     { title: 'Certificate 1 title', issuer: 'Issued by', year: '2025', file: 'certificate1.png' },
     { title: 'Certificate 2 title', issuer: 'Issued by', year: '2025', file: 'certificate2.jpg' },
-    { title: 'Certificate 3 title', issuer: 'Issued by', year: '2025', file: 'certificate-3.pdf' },
-    { title: 'Certificate 4 title', issuer: 'Issued by', year: '2024', file: 'certificate-4.pdf' },
-    { title: 'Certificate 5 title', issuer: 'Issued by', year: '2024', file: 'certificate-5.pdf' },
-    { title: 'Certificate 6 title', issuer: 'Issued by', year: '2024', file: 'certificate-6.pdf' }
+    { title: 'Certificate 3 title', issuer: 'Issued by', year: '2025', file: 'certificate3.jpg' },
+    { title: 'Certificate 4 title', issuer: 'Issued by', year: '2024', file: 'certificate4.jpg' },
+    { title: 'Certificate 5 title', issuer: 'Issued by', year: '2024', file: 'certificate5.jpg' },
+    { title: 'Certificate 6 title', issuer: 'Issued by', year: '2024', file: 'certificate6.jpg' },
+     { title: 'Certificate 2 title', issuer: 'Issued by', year: '2025', file: 'certificate7.jpg' },
+     { title: 'Certificate 2 title', issuer: 'Issued by', year: '2025', file: 'certificate8.jpg' },
+     { title: 'Certificate 2 title', issuer: 'Issued by', year: '2025', file: 'certificate9.jpg' },
+     { title: 'Certificate 2 title', issuer: 'Issued by', year: '2025', file: 'certificate10.jpg' },
+     { title: 'Certificate 2 title', issuer: 'Issued by', year: '2025', file: 'certificate11.jpg' },
+     { title: 'Certificate 2 title', issuer: 'Issued by', year: '2025', file: 'certificate12.jpg' },
+       { title: 'Certificate 1 title', issuer: 'Issued by', year: '2025', file: 'certificate13.png' }
   ]
 };
 
