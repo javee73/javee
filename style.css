@@ -1233,7 +1233,7 @@ button,input,textarea {
 
     .hero-visual {
         height:290px;
-        order:-1;
+        order:0;
         max-width:450px;
         width:100%;
         margin:0 auto
